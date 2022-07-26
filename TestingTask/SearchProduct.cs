@@ -17,7 +17,7 @@ namespace TestingTask
         [SetUp]
         public void startBrowser()
         {
-            driver = new ChromeDriver("D:\\3rdparty\\chrome");
+            driver = new ChromeDriver("C:\\ChromeTest\\103");
         }
 
         [Test]
