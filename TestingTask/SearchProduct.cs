@@ -17,13 +17,13 @@ namespace TestingTask
         [SetUp]
         public void startBrowser()
         {
-            driver = new ChromeDriver("C:\\ChromeTest\\103");
+            driver = new ChromeDriver("C:\\Program Files\\ChromeTest\\chromedriver");
         }
 
         [Test]
         public void test()
         {
-            driver.Url = "http://www.google.co.in";
+            driver.Navigate().GoToUrl("http://www.google.co.in");
         }
 
         [TearDown]
