@@ -53,6 +53,7 @@ namespace TestingTask
             for (int i = 1; i < productsOnThePage; i++)
             {
                 driver.FindElement(By.XPath($"(//ul[contains(@class,'product') and contains(@class,'list') and contains(@class,'grid')]//a[contains(@class,'name') and contains(text(),'{searchWord}')])[{i}]"));
+                
             }
 
 
