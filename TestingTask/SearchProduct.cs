@@ -3,11 +3,6 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
-using System.Text;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace TestingTask
 {
@@ -23,7 +18,7 @@ namespace TestingTask
         }
 
         [Test]
-        public void Test()
+        public void SearchProductTest()
         {
             // Navigate to web site
             driver.Navigate().GoToUrl("http://automationpractice.com/index.php");
@@ -46,19 +41,35 @@ namespace TestingTask
             var productListingSearchWord = driver.FindElement(By.CssSelector("h1[class*='page'][class*='heading'] span[class='lighter']")).Text;
             Assert.AreEqual("dress", productListingSearchWord, "Search value is nor equal dress");
 
-            // Check if the first product in products listing contains search word "Dress"
-            var searchWord = "Dress";
+            // Count products on the page and collect product`s titles 
             int productsOnThePage = driver.FindElements(By.XPath("//ul[contains(@class,'product') and contains(@class,'list') and contains(@class,'grid')]//a[contains(@class,'name')]")).Count;
+            List<string> titles = new List<string>();
 
             for (int i = 1; i < productsOnThePage; i++)
             {
-                driver.FindElement(By.XPath($"(//ul[contains(@class,'product') and contains(@class,'list') and contains(@class,'grid')]//a[contains(@class,'name') and contains(text(),'{searchWord}')])[{i}]"));
-                
+                var productTitle = driver.FindElement(By.XPath($"(//ul[contains(@class,'product') and contains(@class,'list') and contains(@class,'grid')]//a[contains(@class,'name')])[{i}]")).GetAttribute("title");
+                Assert.IsNotNull(productTitle, $"product title {i} is empty");
+                titles.Add(productTitle);
+
             }
 
+            // Check if all Titles have search work "Dress"
+            var searchWord = "Dress";
+            List<string> titlesWithoutSearchWord = new List<string>();
+            for (int p = 0; p < titles.Count; p++)
+            {
+                if (!titles[p].Contains(searchWord))
+                {
+                    titlesWithoutSearchWord.Add(titles[p]);
+                }
 
-            // Clear 
+            }
 
+            // Trow exception if the list with failed condition is not empty
+            if ((titlesWithoutSearchWord != null) && (!titlesWithoutSearchWord.Any()))
+            {
+                throw new InvalidOperationException($"There are titles without search word Dress {titlesWithoutSearchWord}" );
+            }
         }
 
         [TearDown]
