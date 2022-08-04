@@ -14,11 +14,11 @@ namespace TestingTask
         [SetUp]
         public void StartBrowser()
         {
-            driver = new ChromeDriver("C:\\Program Files\\ChromeTest\\chromedriver");
+            driver = new ChromeDriver("C:\\Program Files\\ChromeTest");
         }
 
         [Test]
-        public void SearchProductTest()
+        public void ContactUsTest()
         {
             // Navigate to web site
             driver.Navigate().GoToUrl("http://automationpractice.com/index.php");
@@ -34,7 +34,7 @@ namespace TestingTask
             Assert.IsFalse(string.IsNullOrEmpty(driver.FindElement(By.CssSelector("h3[class*='page'][class*='subheading']")).Text), "The subtitle of contact us form is empty");
             Assert.IsTrue(driver.FindElement(By.CssSelector("form[class*='contact'][class*='box'] div[class='clearfix']")).Displayed, "Contact us form is not visible");
 
-            // Fill out contact us form: Subject. Email, Referance, File
+            // Fill out contact us form: Subject, Email, Referance, File
                 
                 // Select element drop down from Sunbject Heading
                 driver.FindElement(By.Id("uniform-id_contact")).Click();
