@@ -24,7 +24,7 @@ namespace TestingTask
             driver.Navigate().GoToUrl("http://automationpractice.com/index.php");
 
             // Wait for Contact us button is visible and navigate to contact us section
-            WebDriverWait w = new WebDriverWait(driver, TimeSpan.FromSeconds(15));
+            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(15));
             wait.Until(ExpectedConditions.ElementExists(By.Id("contact-link")));
             driver.FindElement(By.Id("contact-link")).Click();
             wait.Until(ExpectedConditions.ElementExists(By.CssSelector("form[class*='contact'][class*='box']")));
@@ -38,7 +38,7 @@ namespace TestingTask
                 
                 // Select element drop down from Sunbject Heading
                 driver.FindElement(By.Id("uniform-id_contact")).Click();
-                new SelectElement(driver.FindElement(By.CssSelector("[id='id_contact'] option"))).SelectByValue("2");
+                driver.FindElement(By.CssSelector("select[id='id_contact'] option[value='2']")).Click();
 
                 // Input Email
                 driver.FindElement(By.Id("email")).Click();
