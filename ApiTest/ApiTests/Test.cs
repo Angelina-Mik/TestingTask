@@ -1,21 +1,51 @@
-﻿using NUnit.Framework;
-using ApiTest.API.Request;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.IO;
+using System.Net;
+using System.Net.Http.Headers;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace ApiTest.ApiTests
+namespace ApiTest1
 {
-    public class Test
+    class Program
     {
-        [Category("Test")]
-        [Test]
-        public async Task TestApiCall()
+        public string Get(string uri)
         {
-            ApiTest.API.Request.API api = new ApiTest.API.Request.API();
-            var response = await api.testRequest();
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
+            request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+
+            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            using (Stream stream = response.GetResponseStream())
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                return reader.ReadToEnd();
+            }
+        }
+
+        public string Post()
+        {
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://restful-booker.herokuapp.com/auth");
+            httpWebRequest.ContentType = "application/json";
+            httpWebRequest.Method = "POST";
+
+            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+            {
+                string json = "{\"username\":\"admin\"," +
+                              "\"password\":\"password123\"}";
+
+                streamWriter.Write(json);
+            }
+            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+            {
+                return streamReader.ReadToEnd();
+            }
+        }
+
+        static void Main()
+        {
+            var execute = new Program();
+            Console.WriteLine(execute.Post());
+            //Console.WriteLine(execute.Get("https://restful-booker.herokuapp.com/booking"));
         }
     }
 }

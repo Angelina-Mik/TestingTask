@@ -60,7 +60,7 @@ namespace TestingTask
                 driver.FindElement(By.Id("uniform-id_state")).Click();
                 driver.FindElement(By.CssSelector("select[id='id_state'] option[value='9']")).Click();
                 driver.FindElement(By.Id("postcode")).SendKeys("77900");
-                driver.FindElement(By.Id("phone_mobile")).SendKeys("+12223334445555");
+                driver.FindElement(By.Id("phone_mobile")).SendKeys($"+1484{PhoneNumberGenerator(7)}");
                 driver.FindElement(By.Id("alias")).SendKeys("Default Address");
 
 
@@ -74,6 +74,14 @@ namespace TestingTask
         {
             Random random = new Random();
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrsqtuvwxyz";
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
+        public static string PhoneNumberGenerator(int length)
+        {
+            Random random = new Random();
+            const string chars = "123456890101112131415161890";
             return new string(Enumerable.Repeat(chars, length)
               .Select(s => s[random.Next(s.Length)]).ToArray());
         }
