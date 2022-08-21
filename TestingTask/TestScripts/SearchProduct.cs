@@ -3,35 +3,19 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
+using TestingTask.BaseClass;
+using TestingTask.PageObejects;
 
-namespace TestingTask
+namespace TestingTask.TestScripts
 {
-    public class SearchProduct
+    public class SearchProduct : TestBase
     {
-        IWebDriver driver;
-        WebDriverWait wait;
-
-        [SetUp]
-        public void StartBrowser()
-        {
-            driver = new ChromeDriver("C:\\Program Files\\ChromeTest");
-        }
-
         [Test]
         public void SearchProductTest()
         {
-            // Navigate to web site
-            driver.Navigate().GoToUrl("http://automationpractice.com/index.php");
-
-            // Wait for Search Box and  magnifier elements are visible on the page
-            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(20));
-            wait.Until(ExpectedConditions.ElementExists(By.Id("searchbox")));
-            wait.Until(ExpectedConditions.ElementExists(By.CssSelector("button[name*='submit'][name*='search']")));
-
-            // Click Search input and search for "dress"
-            driver.FindElement(By.CssSelector("input[id*='search'][id*='query']")).Click();
-            driver.FindElement(By.CssSelector("input[id*='search'][id*='query']")).SendKeys("dress");
-            driver.FindElement(By.CssSelector("button[name*='submit'][name*='search']")).Click();
+            // Search for some category type
+            var searchBox = new SearchBox(driver);
+            searchBox.NavigateToResultPage("dress");
 
             // Check if search input value is "dress" and page responses to search value
             var searchValue = driver.FindElement(By.CssSelector("input[id*='search'][id*='query']")).GetAttribute("value");

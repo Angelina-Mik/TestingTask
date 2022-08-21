@@ -3,26 +3,17 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
+using TestingTask.BaseClass;
 
-namespace TestingTask
+namespace TestingTask.TestScripts
 {
-    public class ContactUs
+    public class ContactUs : TestBase
     {
-        IWebDriver? driver;
         WebDriverWait wait;
-
-        [SetUp]
-        public void StartBrowser()
-        {
-            driver = new ChromeDriver("C:\\Program Files\\ChromeTest");
-        }
 
         [Test]
         public void ContactUsTest()
         {
-            // Navigate to web site
-            driver.Navigate().GoToUrl("http://automationpractice.com/index.php");
-
             // Wait for Contact us button is visible and navigate to contact us section
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(15));
             wait.Until(ExpectedConditions.ElementExists(By.Id("contact-link")));
@@ -35,7 +26,7 @@ namespace TestingTask
             Assert.IsTrue(driver.FindElement(By.CssSelector("form[class*='contact'][class*='box'] div[class='clearfix']")).Displayed, "Contact us form is not visible");
 
             // Fill out contact us form: Subject, Email, Referance, File
-                
+
                 // Select element drop down from Sunbject Heading
                 driver.FindElement(By.Id("uniform-id_contact")).Click();
                 driver.FindElement(By.CssSelector("select[id='id_contact'] option[value='2']")).Click();
@@ -54,19 +45,13 @@ namespace TestingTask
                 driver.FindElement(By.Id("fileUpload")).SendKeys(myScreenShot);
                 wait.Until(ExpectedConditions.ElementExists(By.XPath("//*[@id='uniform-fileUpload']//span[@class='filename'][contains(.,'MyFileTest')]")));
 
-            // Input the massege text
-            driver.FindElement(By.Id("message")).Click();
-            driver.FindElement(By.Id("message")).SendKeys("My Testig Message");
+                // Input the massege text
+                driver.FindElement(By.Id("message")).Click();
+                driver.FindElement(By.Id("message")).SendKeys("My Testing Message");
 
             // Confirm the message by Submit Button and wait for Success message
             driver.FindElement(By.Id("submitMessage")).Click();
             wait.Until(ExpectedConditions.ElementExists(By.CssSelector("p[class*='alert'][class*='success']")));
-        }
-
-        [TearDown]
-        public void CloseBrowser()
-        {
-            driver.Quit();
         }
     }
 }
