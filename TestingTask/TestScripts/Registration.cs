@@ -67,22 +67,5 @@ namespace TestingTask.TestScripts
             Assert.IsTrue(driver.FindElement(By.XPath($"//*[contains(@class,'user') and contains(@class,'info')]/a[contains(@href,'my-account')]/span[contains(.,'{firstName}')]")).Displayed, $"My account Name does not contain {firstName} in the top navigation");
             Assert.IsTrue(driver.FindElement(By.CssSelector("[id='center_column'] [class*='addresses'][class*='lists']")).Displayed, "My account options are not visible on the page");
         }
-        /*
-        public static string WordGenerator(int length)
-        {
-            Random random = new Random();
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrsqtuvwxyz";
-            return new string(Enumerable.Repeat(chars, length)
-              .Select(s => s[random.Next(s.Length)]).ToArray());
-        }
-
-        public static string PhoneNumberGenerator(int length)
-        {
-            Random random = new Random();
-            const string chars = "123456890101112131415161890";
-            return new string(Enumerable.Repeat(chars, length)
-              .Select(s => s[random.Next(s.Length)]).ToArray());
-        }
-        */
     }
 }
